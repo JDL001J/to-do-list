@@ -1,72 +1,63 @@
-const list = document.querySelector(".list")
-const submit = document.querySelector(".submit")
-const input = document.querySelector(".input");
+var input = document.querySelector(".input-field")
+var btn = document.querySelector(".btn");
+var taskList = document.querySelector(".task-list")
 
-submit.addEventListener('click', () => {
-if(input.value == ''){
-    return
-}
-addItem()
-    
-})
-
-input.addEventListener('keypress', (e) => {
-    if(input.value == ''){
+function add() {
+    if(input.value.length == 0){
         return
-    }
-    else if (e.keyCode == 13){
-        addItem()
-
-    }
-       
-        
-    })
-
-    function addItem(){
-        // div1 is larger input div with text, img, and btn
-        div1 = document.createElement('div');
-        div1.className = "div-con";
-        // div2 only contains text and image
-        div2 = document.createElement('div');
-        div2.className = "div2"
-
-        
-
-       
-        text = document.createElement('li');
-        
-        text.className = 'text';
-        
-        text.appendChild(document.createTextNode(input.value));
-
-        check = document.createElement('img');
-        check.src = "./images/check.svg";
-        check.className = 'check';
-        // 
-        
-// 
-
-        xBtn = document.createElement("button");
-        xBtn.appendChild(document.createTextNode('X'));
-       
-       
-        div2.appendChild(check);
-        div2.appendChild(text);
-
-        div1.appendChild(div2)
-        div1.appendChild(xBtn);
-
-        list.appendChild(div1);
-        list.addEventListener("click", function(e) {
-            const tgt = e.target.closest("li");
-            if (tgt) tgt.classList.toggle("line-through");
-          })
-        input.value = '';
-       
-      
-       
-    }
-
-
+     }
+    
+    else {
+ 
+    
+    li = document.createElement('li');
+    li.appendChild(document.createTextNode(input.value));
+    div = document.createElement('div');
+    div.classList.add('item');
+    delBtn = document.createElement('button');
+    delBtn.classList.add('del-btn');
+    delBtn.appendChild(document.createTextNode('X'));
+    div.appendChild(delBtn);
+    div.appendChild(li);
+   taskList.appendChild(div);
+    input.value = "";
    
-   
+    }
+    
+}
+
+// function inputLength(){
+    
+// }
+
+
+
+function toggleDone(e) {
+    if (e.target.tagName === "LI") {
+        e.target.classList.toggle("done");
+    }
+}
+
+
+btn.addEventListener('click', add)
+input.addEventListener('keydown', (e) =>{
+    if(e.keyCode === 13){
+        add()
+    }
+})
+        
+ taskList.addEventListener('click', toggleDone)
+  
+
+
+function remove(e){
+    div = document.querySelector('.item')
+    if (e.target.tagName === "BUTTON") {
+        taskList.removeChild(div);
+    }
+}
+
+
+
+taskList.addEventListener('click', remove)
+
