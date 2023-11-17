@@ -2,6 +2,7 @@ var input = document.querySelector(".input-field")
 var btn = document.querySelector(".btn");
 var taskList = document.querySelector(".task-list")
 
+showData()
 function add() {
     if(input.value.length == 0){
         return
@@ -21,6 +22,7 @@ function add() {
     div.appendChild(li);
    taskList.appendChild(div);
     input.value = "";
+    saveData();
    
     }
     
@@ -36,6 +38,7 @@ function toggleDone(e) {
     if (e.target.tagName === "LI") {
         e.target.classList.toggle("done");
     }
+    saveData()
 }
 
 
@@ -44,6 +47,7 @@ input.addEventListener('keydown', (e) =>{
     if(e.keyCode === 13){
         add()
     }
+    saveData()
 })
         
  taskList.addEventListener('click', toggleDone)
@@ -55,9 +59,16 @@ function remove(e){
     if (e.target.tagName === "BUTTON") {
         taskList.removeChild(div);
     }
+    saveData()
 }
 
-
+function saveData(){
+    localStorage.setItem("data", taskList.innerHTML)
+    
+}
+function showData(){
+    taskList.innerHTML = localStorage.getItem("data")
+}
 
 taskList.addEventListener('click', remove)
 
